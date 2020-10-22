@@ -1,2 +1,2 @@
 # sh-commons
-sh-commons
+Commons shell script utilities
