@@ -5,7 +5,12 @@ source ../../../bootstrap.sh
 include_lib sh-logger
 
 
-get_local_ip() {
+set_local_ip_in_var() {
+	if [[ -z $1 ]]; then
+		log_error "set_local_ip_in_var expect one param. Pass variable nambe to store local IP"
+		exit 1;
+	fi
+
 	log_info "Try get Local IP ..."
 	COMMON_INTERFACES=("eth0" "wlan0")
 	
@@ -31,4 +36,23 @@ get_local_ip() {
 	done;
 	
 	eval "$1=$IP"
+}
+
+set_host_ip_in_var() {
+
+	if [[ -z $1 ]]; then
+		log_error "set_host_ip_in_var expect one param. Pass variable nambe to store local IP"
+		exit 1;
+	fi
+
+	log_info "Get local IP ..."
+	IP_LOCAL=$( curl --max-time $CURL_TIMEOUT https://ifconfig.me 2>/dev/null )
+	
+	if [[ "$IP_LOCAL" == "" || "$1" == "localhost" ]]; then
+	        log_warn "Unable to get IP using https://ifconfig.me"
+	        IP_LOCAL="127.0.0.1"
+	fi
+	log_info "IP $IP_LOCAL will be used"
+	
+	eval "$1=$IP_LOCAL"
 }
