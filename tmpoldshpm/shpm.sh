@@ -1,5 +1,5 @@
 #!/bin/bash
-# v3.2.2 - Build with sh-pm
+# v3.2.3 - Build with sh-pm
 
 source ./bootstrap.sh
 
@@ -132,7 +132,7 @@ run_sh_pm() {
 	fi
 	
 	if [[ "$PUBLISH" == "true" ]];  then	
-		publish_release
+		publish_release $VERBOSE
 	fi
 	
 	if [[ "$AUTOUPDATE" == "true" ]];  then	
@@ -395,6 +395,8 @@ build_release() {
 
 publish_release() {
 
+	local VERBOSE=$1
+
 	if [[ "$SSO_API_AUTHENTICATION_URL" == "" ]]; then
 		shpm_log "In order to publish release, you must define SSO_API_AUTHENTICATION_URL variable in your pom.sh."
 		exit 1
@@ -435,8 +437,14 @@ publish_release() {
 	else
 		shpm_log "Authentication successfull"
 		shpm_log "Sending release to repository $TARGET_REPO  ..."
-		TOKEN_HEADER="Authorization: Bearer $TOKEN"	
-		MSG_RETURNED=$( curl -s -v -F file=@"$FILE_PATH" -H "$TOKEN_HEADER" $TARGET_REPO )
+		TOKEN_HEADER="Authorization: Bearer $TOKEN"
+		
+		CURL_OPTIONS="-s"
+		if [[ "$VERBOSE" == "true" ]]; then
+		    CURL_OPTIONS="-v"
+		fi
+			
+		MSG_RETURNED=$( curl $CURL_OPTIONS -F file=@"$FILE_PATH" -H "$TOKEN_HEADER" $TARGET_REPO )
 		shpm_log "Sended"
 		
 		shpm_log "Return received from repository:"

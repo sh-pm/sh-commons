@@ -11,7 +11,7 @@ include_file $SRC_DIR_PATH/string_utils.sh
 
 test_get_script_caller_name() {
 	local RETURN=$( get_script_caller_name /tmp )
-	assert_equals $( string_end_with $RETURN "test_runner.sh" )
+	assert_true $( string_end_with $RETURN "test_runner.sh" )  
 }
 
 run_all_tests_in_this_script
