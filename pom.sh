@@ -1,6 +1,6 @@
 GROUP_ID=bash
 ARTIFACT_ID=sh-commons
-VERSION=v1.7.3
+VERSION=v2.0.0
 
 declare -A REPOSITORY=( \
 	[host]="shpmcenter.com" \

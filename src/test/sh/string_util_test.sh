@@ -6,7 +6,7 @@ include_lib sh-logger
 include_lib sh-unit
 
 # SUT's
-include_file $SRC_DIR_PATH/string_utils.sh
+include_file $SRC_DIR_PATH/string_util.sh
 
 test_string_start_with() {
 	string_start_with "Tester" "Tes"
@@ -48,6 +48,27 @@ test_string_contains() {
     
     string_contains "Tester" "Ter"
 	assert_false $?
+}
+
+test_string_trim() {
+	assert_equals "teste" $( string_trim "                    teste          " )
+}
+
+test_string_is_empty() {
+	string_is_empty "fdjasçflj"
+	assert_false $?
+	
+	string_is_empty ""
+ 	assert_true $?
+	
+	string_is_empty null
+	assert_false $?
+}
+
+test_string_size() {
+	assert_equals 17 $( string_size "abc   432432!@#$%" )
+	assert_equals 1 $( string_size "A" )
+	assert_equals 0 $( string_size "" )
 }
 
 run_all_tests_in_this_script

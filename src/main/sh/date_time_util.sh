@@ -1,6 +1,7 @@
 #!/bin/bash
+# v1.7.1 - Build with sh-pm
 
-source ../../../bootstrap.sh
+
 
 include_lib sh-logger
 

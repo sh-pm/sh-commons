@@ -6,7 +6,7 @@ include_lib sh-logger
 include_lib sh-unit
 
 # SUT's
-include_file $SRC_DIR_PATH/validation_utils.sh
+include_file $SRC_DIR_PATH/param_util.sh
 
 
 #-- test_is_number_params_correct: start ------------------------------------
@@ -72,11 +72,11 @@ test_is_number_params_correct() {
 
 #-- test_check_number_of_params_required: start ------------------------------------
 function2_expecting_0_params() {
-	check_number_of_params_required 0 $@
+	ensure_number_params_correct 0 $@
 }
 
 function2_expecting_2_params() {
-	check_number_of_params_required 2 $@
+	ensure_number_params_correct 2 $@
 }
 
 test_check_number_of_params_required() {
@@ -88,32 +88,6 @@ test_check_number_of_params_required() {
 	assert_true $( function2_expecting_2_params param param )
 }
 #-- test_check_number_of_params_required: end ------------------------------------
-
-test_is_directory() {
-	is_directory /tmp
-	assert_true $?
-	
-	is_directory /tmpx
-	assert_false $?
-}
-
-test_directory_is_empty() {
-	
-	FOLDER4TEST=/tmp/folder4test
-
-	if $( directory_exists $FOLDER4TEST ); then
-		rm -rf $FOLDER4TEST
-	fi
-	
-	mkdir $FOLDER4TEST
-	
-	directory_is_empty $FOLDER4TEST	
-	assert_true $?
-	
-	touch $FOLDER4TEST/lixotmp.txt
-	directory_is_empty $FOLDER4TEST
-	assert_false $?
-}
 
 
 run_all_tests_in_this_script
