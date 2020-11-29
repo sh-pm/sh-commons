@@ -33,3 +33,18 @@ get_local_ip() {
 	
 	eval "$1=$IP"
 }
+
+
+get_host_ip() {
+
+	log_info "Get local IP ..."
+	IP_LOCAL=$( curl --max-time $CURL_TIMEOUT https://ifconfig.me 2>/dev/null )
+	
+	if [[ "$IP_LOCAL" == "" || "$1" == "localhost" ]]; then
+	        log_warn "Unable to get IP using https://ifconfig.me"
+	        IP_LOCAL="127.0.0.1"
+	fi
+	log_info "IP $IP_LOCAL will be used"
+	
+	eval "$1=$IP_LOCAL"
+}
