@@ -6,7 +6,7 @@
 include_lib sh-logger
 
 
-get_local_ip() {
+set_local_ip() {
 	log_info "Try get Local IP ..."
 	COMMON_INTERFACES=("eth0" "wlan0")
 	
@@ -35,7 +35,7 @@ get_local_ip() {
 }
 
 
-get_host_ip() {
+set_host_ip() {
 
 	log_info "Get local IP ..."
 	IP_LOCAL=$( curl --max-time $CURL_TIMEOUT https://ifconfig.me 2>/dev/null )
