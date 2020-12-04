@@ -33,12 +33,7 @@ print_end_delimiter() {
 
 print_usage_help() {
 	
-	local FUNCTION_NAME=${FUNCNAME[1]}
-	
-	# if it's not called inside function
-	if [[ "$FUNCTION_NAME" == "main" ]]; then
-		FUNCTION_NAME=$( basename ${BASH_SOURCE[0]} )
-	fi
+	local FUNCTION_NAME=$( basename ${BASH_SOURCE[${#BASH_SOURCE[@]} - 1]} )
 	
 	# Receive associative array
 	eval "declare -A PARAMS_EXPECTED="${1#*=}
