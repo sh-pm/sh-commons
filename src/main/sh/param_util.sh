@@ -57,14 +57,16 @@ is_number_params_correct() {
  ##
 ensure_number_params_correct(){
 	
-	if [ $# -eq 0 ]; then
+	local ARGS=("$@")
+	
+	if [ ${#ARGS[@]} -eq 0 ]; then
 		local NUM_PARAMS_EXPECTED=0
 	else 
 		local NUM_PARAMS_EXPECTED=$1
 	fi
 	
     local FUNCTION_NAME=${FUNCNAME[1]}
-    local NUM_PARAMS_RECEIVED=$(( $# - 1 )) # the first param is not a param of function under avaliation, is the number of param expected
+    local NUM_PARAMS_RECEIVED=$(( ${#ARGS[@]} - 1 )) # the first param is not a param of function under avaliation, is the number of param expected
 
 	if [ $NUM_PARAMS_RECEIVED -ne $NUM_PARAMS_EXPECTED ]; then	    
 		log_error "Illegal number of parameters. Function '$FUNCTION_NAME' expect $NUM_PARAMS_EXPECTED params but receive $NUM_PARAMS_RECEIVED"	    
